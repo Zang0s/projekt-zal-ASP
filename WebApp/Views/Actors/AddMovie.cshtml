@@ -1,0 +1,27 @@
+@{
+    ViewBag.Title = "Add Movie";
+}
+
+<h1>Add Movie for @ViewBag.ActorName</h1>
+
+<form asp-action="AddMovie" method="post">
+    <input type="hidden" name="actorId" value="@ViewBag.ActorId" />
+
+    <div class="form-group">
+        <label for="movieId">Select Movie</label>
+        <select name="movieId" id="movieId" class="form-control" required>
+            @foreach (var movie in ViewBag.Movies as SelectList)
+            {
+            <option value="@movie.Value">@movie.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="characterName">Character Name</label>
+        <input type="text" name="characterName" id="characterName" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Movie</button>
+    <a href="@Url.Action("Movies", new { id = ViewBag.ActorId })" class="btn btn-secondary">Cancel</a>
+</form>

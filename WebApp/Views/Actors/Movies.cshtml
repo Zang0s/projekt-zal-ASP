@@ -1,0 +1,36 @@
+@model IEnumerable<WebApp.Controllers.MovieViewModel>
+
+<h1>Movies for @ViewBag.ActorName</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    <a href="@Url.Action("AddMovie", "Actors", new { id = ViewBag.ActorId })" class="btn btn-primary">Add Movie</a>
+}
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Budget</th>
+        <th>Popularity</th>
+        <th>Homepage</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var movie in Model)
+    {
+    <tr>
+        <td>@movie.Title</td>
+        <td>@movie.Budget</td>
+        <td>@movie.Popularity</td>
+        <td>
+            @if (!string.IsNullOrEmpty(movie.Homepage))
+            {
+            <a href="@movie.Homepage" target="_blank">Homepage</a>
+            }
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+

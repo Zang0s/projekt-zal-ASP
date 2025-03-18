@@ -1,0 +1,66 @@
+@model IEnumerable<WebApp.Controllers.ActorViewModel>
+
+<h1>Actors</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Movie Count</th>
+        <th>Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var actor in Model)
+    {
+        <tr>
+            <td class="w-25">@actor.PersonName</td>
+            <td class="w-25">
+                <a href="@Url.Action("Movies", "Actors", new { id = actor.PersonId })">
+                    @actor.MovieCount
+                </a>
+            </td>
+            <td class="w-50">
+                <button class="btn btn-link shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#roles-@actor.PersonId" aria-expanded="false" aria-controls="roles-@actor.PersonId">
+                    Show Roles
+                </button>
+                <div class="collapse " id="roles-@actor.PersonId">
+                    <ul class="list-group ">
+                        @foreach (var movie in actor.Movies)
+                        {
+                        <li class="list-group-item">
+                            <strong>@movie.Title:</strong> @movie.CharacterName
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+@if (ViewBag.TotalPages > 1)
+{
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+        if (i == 1 || i == ViewBag.TotalPages || (i >= ViewBag.CurrentPage - 2 && i <= ViewBag.CurrentPage + 2))
+        {
+        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+            <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+        </li>
+        }
+        else if (i == ViewBag.CurrentPage - 3 || i == ViewBag.CurrentPage + 3)
+        {
+        <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        }
+        }
+        
+    </ul>
+</nav>
+}
